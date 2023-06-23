@@ -5,7 +5,7 @@ import { useDeleteJobMutation } from "@/redux/features/api/job/jobsApi";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 
-const ConfirmPage = ({ isOpen = false, setIsOpen, jobId }) => {
+const ConfirmPage = ({ isDelete = false, setIsDelete, jobId }) => {
   const [deleteJob, { isLoading, isError, error, isSuccess }] =
     useDeleteJobMutation();
   const router = useRouter();
@@ -15,17 +15,17 @@ const ConfirmPage = ({ isOpen = false, setIsOpen, jobId }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      setIsOpen(false);
+      setIsDelete(false);
       router.replace("/job");
     }
-  }, [isSuccess, setIsOpen, router]);
+  }, [isSuccess, setIsDelete, router]);
   return (
     <div>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={isDelete} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
-          onClose={() => setIsOpen(false)}
+          onClose={() => setIsDelete(false)}
         >
           <Transition.Child
             as={Fragment}
@@ -74,7 +74,7 @@ const ConfirmPage = ({ isOpen = false, setIsOpen, jobId }) => {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 shadow-lg duration"
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => setIsDelete(false)}
                     >
                       No
                     </button>

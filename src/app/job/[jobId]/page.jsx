@@ -11,14 +11,15 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import DescPage from "./DescPage";
 import EditPost from "./EditPost";
+import Proposal from "./Proposal";
 const PostId = ({ params }) => {
   const { jobId } = params;
   const { data: job, isLoading, isError, error } = useFetchJobQuery(jobId);
   const { userDetails } = useSelector((state) => state.auth);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isApply, setIsApply] = useState(false);
-  const [{ isSuccess }] = useSubmitProposalMutation();
+  const [showProposal, setShowProposal] = useState(false);
 
   const {
     uid,
@@ -64,10 +65,10 @@ const PostId = ({ params }) => {
           <div>
             {uid === userDetails?.uid && (
               <EditPost
-                setIsOpen={setIsOpen}
+                setIsDelete={setIsDelete}
                 setIsEdit={setIsEdit}
                 isEdit={isEdit}
-                isOpen={isOpen}
+                isDelete={isDelete}
                 job={job}
                 jobId={jobId}
               />
@@ -79,29 +80,35 @@ const PostId = ({ params }) => {
               <ApplyJob setIsApply={setIsApply} job={job} jobId={jobId} />
             )}
             {userDetails?.role === "freelancer" && !isApply && (
-              <>
+              <div className="space-x-5">
                 <button
                   type="button"
                   className={`p-2 px-3 bg-green-500 ${
-                    isSuccess ? "hidden" : ""
-                  } text-white rounded-md shadow-lg `}
+                    checkApply
+                      ? "bg-white border-green-500 border text-black"
+                      : "text-white"
+                  }  rounded-md shadow-lg `}
                   onClick={() => setIsApply(true)}
                   disabled={checkApply}
                 >
                   {checkApply ? "You applied this job" : "Apply for this job"}
                 </button>
-                <br />
-                <br />
-                {checkApply && <p>see your proposal...</p>}
-              </>
-            )}
-            {isSuccess && (
-              <button
-                type="button"
-                className="bg-green-500 text-white p-3 rounded-lg"
-              >
-                successfully send your proposal
-              </button>
+
+                {checkApply && (
+                  <>
+                    <button type="button" onClick={() => setShowProposal(true)}>
+                      see your proposal...
+                    </button>
+                    {showProposal && (
+                      <Proposal
+                        setShowProposal={setShowProposal}
+                        showProposal={showProposal}
+                        jobId={jobId}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
             )}
           </div>
         </div>

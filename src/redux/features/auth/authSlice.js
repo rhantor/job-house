@@ -14,6 +14,7 @@ const initialState = {
   error: "",
   isLogin: false,
   userDetails: {},
+  isSuccess: false,
 };
 
 export const signUp = createAsyncThunk(
@@ -94,6 +95,7 @@ const authSlice = createSlice({
     clearUser: (state) => {
       state.isLogin = false;
       state.userDetails = null;
+      state.isSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -108,12 +110,14 @@ const authSlice = createSlice({
         state.userDetails = action.payload;
         state.isError = false;
         state.error = "";
+        state.isSuccess = true;
       })
       .addCase(signUp.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.error = action.error?.message;
         state.isLogin = false;
+        state.isSuccess = true;
       })
       .addCase(signIn.pending, (state) => {
         state.isLoading = true;
@@ -124,6 +128,8 @@ const authSlice = createSlice({
         state.isLogin = true;
         state.userDetails = action.payload;
         state.isError = false;
+        state.isSuccess = true;
+
         state.error = "";
       })
       .addCase(signIn.rejected, (state, action) => {
@@ -131,6 +137,7 @@ const authSlice = createSlice({
         state.isLogin = false;
         state.isError = true;
         state.error = action.error?.message;
+        state.isSuccess = false;
       })
       .addCase(logOut.pending, (state) => {
         state.isLoading = true;
@@ -146,6 +153,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.error?.message;
+        state.isSuccess = false;
       });
   },
 });

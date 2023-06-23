@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { signIn, signUp } from "@/redux/features/auth/authSlice";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Form = ({ login = false }) => {
@@ -12,7 +12,9 @@ const Form = ({ login = false }) => {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("client");
   const dispatch = useDispatch();
-  const { error, isLoading } = useSelector((state) => state.auth);
+  const { error, isLoading, isSuccess, isLogin } = useSelector(
+    (state) => state.auth
+  );
   const router = useRouter();
 
   const handleTogglePassword = () => {
@@ -23,30 +25,31 @@ const Form = ({ login = false }) => {
     e.preventDefault();
     if (name && email && password) {
       const userRole = login ? null : role;
-      dispatch(signUp({ email, password, username: name, role: userRole }))
-        .then(() => {
-          router.push("/dashboard");
-        })
-        .catch((error) => {
-          console.log("Sign up error:", error);
-        });
+      dispatch(signUp({ email, password, username: name, role: userRole }));
+
+      if (isSuccess) {
+        router.push("/dashboard");
+      }
     } else {
-      console.log("Please provide all required fields.");
+      alert("Please provide all required fields.");
     }
   };
 
   const handleLogIn = (e) => {
     e.preventDefault();
     if (email && password) {
-      dispatch(signIn({ email, password }))
-        .then(() => {
-          router.push("/dashboard");
-        })
-        .catch((error) => {
-          console.log("Sign in error:", error);
-        });
+      dispatch(signIn({ email, password }));
+
+      if (isSuccess) {
+        router.push("/dashboard");
+      }
     }
   };
+  useEffect(() => {
+    if (isSuccess || isLogin) {
+      router.push("/dashboard");
+    }
+  }, [isSuccess, router, isLogin]);
   return (
     <>
       <form onSubmit={!login ? handleSubmit : handleLogIn}>

@@ -5,10 +5,11 @@ export default function Home() {
     <main className="flex flex-wrap justify-center items-center container mx-auto">
       <div className="lg:w-1/2 lg:min-h-[90vh] order-2 lg:order-1 px-10 py-5 lg:p-10 flex flex-col justify-center items-start ">
         <h1 className="font-extrabold text-5xl md:text-6xl tracking-wider mb-10 text-green-500">
-          <span className="block mb-5">How work</span> <span> should work</span>
+          <span className="block md:mb-5">How work</span>{" "}
+          <span className="text-4xl"> should work</span>
         </h1>
         <h2 className="text-xl">
-          The Market place where you can found client or contructor easily
+          The Market place where you can found client or contractor easily
         </h2>
         <br />
         <p className="text-base">

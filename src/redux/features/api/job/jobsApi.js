@@ -138,6 +138,59 @@ export const jobsApi = createApi({
       },
       invalidatesTags: ["job"],
     }),
+    fetchClientJobs: builder.query({
+      async queryFn(uid) {
+        try {
+          const jobRef = collection(firestore, "jobs");
+          const querySnapshot = await getDocs(jobRef);
+          let clientJobs = [];
+          querySnapshot?.forEach((doc) => {
+            const checkClient = doc.data()?.uid === uid;
+
+            if (checkClient) {
+              clientJobs.push({
+                id: doc.id,
+                ...doc.data(),
+              });
+            }
+          });
+          // Sort the jobs array based on the timestamp property
+          clientJobs.sort((b, a) => {
+            const timestampA = a?.timestamp?.toDate()?.getTime();
+            const timestampB = b?.timestamp?.toDate()?.getTime();
+            return timestampA - timestampB;
+          });
+          return { data: clientJobs };
+        } catch (err) {
+          return { error: err };
+        }
+      },
+      providesTags: ["jobs"],
+    }),
+    fetchJobsProposals: builder.query({
+      async queryFn({ jobId, uid }) {
+        try {
+          const jobRef = collection(firestore, "proposalData");
+          const querySnapshot = await getDocs(jobRef);
+          let proposals = {};
+          querySnapshot?.forEach((doc) => {
+            const checkProposal =
+              doc.data()?.job_id === jobId &&
+              doc.data()?.freelancer_uid === uid;
+            if (checkProposal) {
+              proposals = {
+                id: doc.id,
+                ...doc.data(),
+              };
+            }
+          });
+
+          return { data: proposals };
+        } catch (err) {
+          return { error: err };
+        }
+      },
+    }),
   }),
 });
 
@@ -148,4 +201,6 @@ export const {
   useDeleteJobMutation,
   useUpdateJobMutation,
   useSubmitProposalMutation,
+  useFetchClientJobsQuery,
+  useFetchJobsProposalsQuery,
 } = jobsApi;
