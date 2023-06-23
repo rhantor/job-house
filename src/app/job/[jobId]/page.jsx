@@ -2,10 +2,7 @@
 
 import Loading from "@/app/components/Loading";
 import ApplyJob from "@/app/job/[jobId]/ApplyJob";
-import {
-  useFetchJobQuery,
-  useSubmitProposalMutation,
-} from "@/redux/features/api/job/jobsApi";
+import { useFetchJobQuery } from "@/redux/features/api/job/jobsApi";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -80,10 +77,10 @@ const PostId = ({ params }) => {
               <ApplyJob setIsApply={setIsApply} job={job} jobId={jobId} />
             )}
             {userDetails?.role === "freelancer" && !isApply && (
-              <div className="space-x-5">
+              <div className="sm:space-x-5 space-y-5">
                 <button
                   type="button"
-                  className={`p-2 px-3 bg-green-500 ${
+                  className={`p-2 px-3 bg-green-500 mr-4 ${
                     checkApply
                       ? "bg-white border-green-500 border text-black"
                       : "text-white"

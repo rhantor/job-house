@@ -151,6 +151,7 @@ const ApplyJob = ({ setIsApply, job, jobId }) => {
           <button
             type="submit"
             className="p-2 px-3 border-green-500 border rounded bg-green-600 text-white hover:bg-green-800 duration-300 text-sm md:text-base "
+            disabled={isLoading}
           >
             {isLoading ? "sending..." : "Submit proposal"}
           </button>
@@ -158,6 +159,7 @@ const ApplyJob = ({ setIsApply, job, jobId }) => {
             type="button"
             className="p-2 px-3 border-red-500 border rounded bg-red-600 text-white hover:bg-white hover:text-red-600 duration-300  text-sm md:text-base"
             onClick={() => setIsApply(false)}
+            disabled={isLoading}
           >
             {" "}
             Cancel

@@ -143,6 +143,7 @@ const CreatePost = () => {
           <button
             type="submit"
             className="mr-3 p-2 px-3 bg-green-600 text-white rounded"
+            disabled={isLoading}
           >
             {isLoading ? " adding..." : "Submit"}
           </button>
@@ -155,6 +156,7 @@ const CreatePost = () => {
                 setPrice("");
                 setTitle("");
               }}
+              disabled={isLoading}
             >
               {" "}
               Cancel

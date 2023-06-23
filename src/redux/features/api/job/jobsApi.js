@@ -15,7 +15,7 @@ import emailjs from "@emailjs/browser";
 
 export const jobsApi = createApi({
   reducerPath: "jobApi",
-  tagTypes: ["job", "jobs"],
+  tagTypes: ["job", "jobs", "clientJobs", "proposal"],
   baseQuery: fakeBaseQuery(),
 
   endpoints: (builder) => ({
@@ -31,6 +31,7 @@ export const jobsApi = createApi({
           return { error: err };
         }
       },
+      invalidatesTags: ["jobs", "job", "clientJobs"],
     }),
     fetchJobs: builder.query({
       async queryFn() {
@@ -136,7 +137,7 @@ export const jobsApi = createApi({
           return { error };
         }
       },
-      invalidatesTags: ["job"],
+      invalidatesTags: ["job", "proposal"],
     }),
     fetchClientJobs: builder.query({
       async queryFn(uid) {
@@ -165,13 +166,13 @@ export const jobsApi = createApi({
           return { error: err };
         }
       },
-      providesTags: ["jobs"],
+      providesTags: ["clientJobs"],
     }),
     fetchJobsProposals: builder.query({
       async queryFn({ jobId, uid }) {
         try {
-          const jobRef = collection(firestore, "proposalData");
-          const querySnapshot = await getDocs(jobRef);
+          const proposalRef = collection(firestore, "proposalData");
+          const querySnapshot = await getDocs(proposalRef);
           let proposals = {};
           querySnapshot?.forEach((doc) => {
             const checkProposal =
@@ -191,6 +192,36 @@ export const jobsApi = createApi({
         }
       },
     }),
+    fetchFreelancerProposals: builder.query({
+      async queryFn(uid) {
+        try {
+          const jobsRef = collection(firestore, "jobs");
+          const queryJobs = await getDocs(jobsRef);
+          let proposalsJobs = [];
+          queryJobs.forEach((doc) => {
+            const checkFreelancerUid = doc
+              .data()
+              ?.proposalId?.some((id) => id === uid);
+            if (checkFreelancerUid) {
+              proposalsJobs.push({
+                id: doc.id,
+                ...doc.data(),
+              });
+            }
+          });
+          // Sort the jobs array based on the timestamp property
+          proposalsJobs.sort((b, a) => {
+            const timestampA = a?.timestamp?.toDate()?.getTime();
+            const timestampB = b?.timestamp?.toDate()?.getTime();
+            return timestampA - timestampB;
+          });
+          return { data: proposalsJobs };
+        } catch (err) {
+          return { error: err };
+        }
+      },
+      providesTags: ["proposal"],
+    }),
   }),
 });
 
@@ -203,4 +234,5 @@ export const {
   useSubmitProposalMutation,
   useFetchClientJobsQuery,
   useFetchJobsProposalsQuery,
+  useFetchFreelancerProposalsQuery,
 } = jobsApi;

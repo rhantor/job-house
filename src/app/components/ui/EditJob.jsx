@@ -24,7 +24,6 @@ const EditJob = ({ isEdit = false, setIsEdit, job, id }) => {
       expLvl,
     };
     await updateJob({ id, data });
-    // isLoading
   };
   useEffect(() => {
     if (isSuccess) {
@@ -71,7 +70,6 @@ const EditJob = ({ isEdit = false, setIsEdit, job, id }) => {
                   className="text-lg font-medium leading-6 text-green-600"
                 >
                   Edit Item
-                  
                 </Dialog.Title>
                 <form onSubmit={handleSubmitData} className="m-auto max-w-2xl">
                   <div className="mb-4">
@@ -178,6 +176,7 @@ const EditJob = ({ isEdit = false, setIsEdit, job, id }) => {
                     <button
                       type="submit"
                       className="mr-3 p-2 px-3 bg-green-600 text-white rounded"
+                      disabled={isLoading}
                     >
                       {isLoading ? " updating..." : "update"}
                     </button>

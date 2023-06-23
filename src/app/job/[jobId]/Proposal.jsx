@@ -40,7 +40,7 @@ const Proposal = ({ showProposal, setShowProposal, jobId }) => {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex border border-red-500 min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as="div"
                 enter="ease-out duration-300"
@@ -49,13 +49,14 @@ const Proposal = ({ showProposal, setShowProposal, jobId }) => {
                 leave="ease-in duration-200"
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
+                className={"w-full flex items-center justify-center"}
               >
                 {isLoading ? (
-                  "loading"
+                  <span className="text-white">loading...</span>
                 ) : isError ? (
                   error.toString()
                 ) : (
-                  <Dialog.Panel className="w-full min-w-[300px] max-w-3xl transform max-h-[80vh] overflow-auto scrollbar-container rounded-xl rounded-r-xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full sm:min-w-[600px] max-w-3xl transform max-h-[80vh] overflow-auto scrollbar-container rounded-xl rounded-r-xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                     <div className="flex justify-between items-center">
                       <Dialog.Title
                         as="h3"
@@ -72,20 +73,20 @@ const Proposal = ({ showProposal, setShowProposal, jobId }) => {
                       </button>
                     </div>
                     <div className="space-y-4 mt-3">
-                      <div>
-                        <h1 className="font-mono">Cover Letter :</h1>
-                        <p className="text-base text-gray-500 pl-11">
+                      <div className="flex justify-start items-start gap-3">
+                        <h1 className="font-mono basis-1/5">Cover Letter :</h1>
+                        <p className="text-base text-gray-500 basis-[75%]">
                           {coverLetter}
                         </p>
                       </div>
-                      <div>
-                        <h1 className="font-mono">Recent Work Description :</h1>
-                        <p className="text-base text-gray-500 pl-11 ">
+                      <div className="flex justify-start items-start gap-3">
+                        <h1 className="font-mono basis-1/5">Recent Work :</h1>
+                        <p className="text-base text-gray-500 basis-[75%]">
                           {selfDesc}
                         </p>
                       </div>
                       <div className="flex items-center justify-start gap-5">
-                        <h1 className="font-mono">Your Rate:</h1>
+                        <h1 className="font-mono basis-1/5">Your Rate:</h1>
                         <p className="text-base text-gray-900 font-bold">
                           $ {hourlyRate}
                         </p>
