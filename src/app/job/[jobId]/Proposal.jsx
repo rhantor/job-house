@@ -76,7 +76,7 @@ const Proposal = ({ showProposal, setShowProposal, jobId }) => {
                       <div className="flex justify-start items-start gap-3">
                         <h1 className="font-mono basis-1/5">Cover Letter :</h1>
                         <p className="text-base text-gray-500 basis-[75%]">
-                          {coverLetter}
+                          {coverLetter} 
                         </p>
                       </div>
                       <div className="flex justify-start items-start gap-3">
