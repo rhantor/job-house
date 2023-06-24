@@ -80,6 +80,7 @@ export const jobsApi = createApi({
           return { error: err };
         }
       },
+      invalidatesTags: ["clientJobs", "jobs", "job"],
     }),
     updateJob: builder.mutation({
       async queryFn({ id, data }) {
