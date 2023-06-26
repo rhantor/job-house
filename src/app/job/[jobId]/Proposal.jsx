@@ -17,7 +17,8 @@ const Proposal = ({ showProposal, setShowProposal, jobId }) => {
     uid,
   });
 
-  const { hourlyRate, coverLetter, timestamp, selfDesc } = proposalData || {};
+  const { terms, coverLetter, timestamp, selfDesc } = proposalData || {};
+  const { amount, milestoneDesc, selectedDuration: duration } = terms || {};
 
   return (
     <>
@@ -73,22 +74,44 @@ const Proposal = ({ showProposal, setShowProposal, jobId }) => {
                       </button>
                     </div>
                     <div className="space-y-4 mt-3">
-                      <div className="flex justify-start items-start gap-3">
-                        <h1 className="font-mono basis-1/5">Cover Letter :</h1>
-                        <p className="text-base text-gray-500 basis-[75%]">
-                          {coverLetter} 
+                      <div className="flex flex-wrap justify-start items-start sm:gap-3 ">
+                        <h1 className="font-mono basis-full sm:basis-1/4">
+                          Cover Letter :
+                        </h1>
+                        <p className="text-base text-gray-500 basis-full sm:basis-[70%]">
+                          {coverLetter}
                         </p>
                       </div>
-                      <div className="flex justify-start items-start gap-3">
-                        <h1 className="font-mono basis-1/5">Recent Work :</h1>
-                        <p className="text-base text-gray-500 basis-[75%]">
+                      <div className="flex flex-wrap justify-start items-start sm:gap-3">
+                        <h1 className="font-mono basis-full sm:basis-1/4">
+                          Recent Work :
+                        </h1>
+                        <p className="text-base text-gray-500 basis-full sm:basis-[70%]">
                           {selfDesc}
                         </p>
                       </div>
-                      <div className="flex items-center justify-start gap-5">
-                        <h1 className="font-mono basis-1/5">Your Rate:</h1>
+                      <div className="flex flex-wrap items-center justify-start sm:gap-3">
+                        <h1 className="font-mono basis-1/2 sm:basis-1/4">
+                          Your Rate:
+                        </h1>
                         <p className="text-base text-gray-900 font-bold">
-                          $ {hourlyRate}
+                          $ {amount}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-start sm:gap-3">
+                        <h1 className="font-mono basis-full sm:basis-1/4">
+                          Duration :
+                        </h1>
+                        <p className="text-base text-gray-900 font-bold ">
+                          {duration?.duration}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-start sm:gap-3">
+                        <h1 className="font-mono basis-full sm:basis-1/4">
+                          milestone desc :
+                        </h1>
+                        <p className="text-base text-gray-900 font-bold basis-full sm:basis-[70%]">
+                          {milestoneDesc}
                         </p>
                       </div>
                       <h1 className="text-sm">

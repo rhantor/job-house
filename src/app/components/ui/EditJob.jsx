@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  useAddJobMutation,
   useUpdateJobMutation,
 } from "@/redux/features/api/job/jobsApi";
 import { Dialog, Transition } from "@headlessui/react";

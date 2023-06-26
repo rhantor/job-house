@@ -124,11 +124,11 @@ export const jobsApi = createApi({
             subject: proposalData.subject,
             coverLetter: proposalData.coverLetter,
             selfDesc: proposalData.selfDesc,
-            hourlyRate: proposalData.hourlyRate,
+            terms: proposalData.terms,
           };
           await emailjs.send(
             "service_ns6jxe8",
-            "template_oxnjbzr",
+            "template_kxplale",
             emailData,
             "VrrYupDuebtgZisdc"
           );

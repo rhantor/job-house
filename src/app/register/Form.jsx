@@ -46,7 +46,7 @@ const Form = ({ login = false }) => {
     }
   };
   useEffect(() => {
-    if (isSuccess || isLogin) {
+    if (isLogin) {
       router.push("/dashboard");
     }
   }, [isSuccess, router, isLogin]);
@@ -136,7 +136,7 @@ const Form = ({ login = false }) => {
           }`}
           disabled={isLoading}
         >
-          {isLoading ? "logging.." : login ? "Login" : "Register"}
+          {isLoading ? "loging.." : login ? "Login" : "Register"}
         </button>
       </form>
 

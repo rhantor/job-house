@@ -2,9 +2,12 @@
 
 import Loading from "@/app/components/Loading";
 import ApplyJob from "@/app/job/[jobId]/ApplyJob";
-import { useFetchJobQuery } from "@/redux/features/api/job/jobsApi";
+import {
+  useFetchJobQuery,
+  useSubmitProposalMutation,
+} from "@/redux/features/api/job/jobsApi";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DescPage from "./DescPage";
 import EditPost from "./EditPost";
@@ -17,6 +20,7 @@ const PostId = ({ params }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isApply, setIsApply] = useState(false);
   const [showProposal, setShowProposal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const {
     uid,
@@ -33,6 +37,14 @@ const PostId = ({ params }) => {
   const checkApply =
     Array.isArray(proposalId) && proposalId.includes(userDetails.uid);
 
+  useEffect(() => {
+    if (isSuccess) {
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+    }
+  }, [isSuccess]);
+
   return (
     <div className="container p-5">
       {isLoading ? (
@@ -40,7 +52,12 @@ const PostId = ({ params }) => {
       ) : isError ? (
         error
       ) : jobId ? (
-        <div className="max-w-[800px] mx-auto space-y-6">
+        <div className="max-w-[800px] mx-auto space-y-6 rounded">
+          {isSuccess && (
+            <div className="p-2 bg-green-500 text-white w-fit rounded-md">
+              ✔ successfully submitted
+            </div>
+          )}
           <DescPage
             uid={uid}
             desc={desc}
@@ -74,7 +91,12 @@ const PostId = ({ params }) => {
 
           <div className="apply">
             {isApply && (
-              <ApplyJob setIsApply={setIsApply} job={job} jobId={jobId} />
+              <ApplyJob
+                setIsApply={setIsApply}
+                job={job}
+                jobId={jobId}
+                setIsSuccess={setIsSuccess}
+              />
             )}
             {userDetails?.role === "freelancer" && !isApply && (
               <div className="sm:space-x-5 space-y-5">
