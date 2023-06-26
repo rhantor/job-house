@@ -12,7 +12,7 @@ const DescPage = (props) => {
     userDetails,
   } = props;
   const updatedLocalTime = updatedTime?.toDate().toLocaleString();
-  const createdLocalTime = timestamp.toDate().toLocaleString();
+  const createdLocalTime = timestamp?.toDate().toLocaleString();
   return (
     <>
       <div className="flex justify-between items-center flex-wrap">
