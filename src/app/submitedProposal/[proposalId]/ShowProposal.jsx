@@ -83,7 +83,7 @@ const ShowProposal = ({ proposal, showModal, setShowModal }) => {
                         Duration :
                       </h1>
                       <p className="text-base text-gray-900 font-bold ">
-                        {selectedDuration?.duration?.duration}
+                        {selectedDuration?.duration}
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center justify-start sm:gap-3">
