@@ -169,7 +169,7 @@ export const jobsApi = createApi({
       },
       providesTags: ["clientJobs"],
     }),
-    fetchJobsProposals: builder.query({
+    fetchJobsProposal: builder.query({
       async queryFn({ jobId, uid }) {
         try {
           const proposalRef = collection(firestore, "proposalData");
@@ -223,6 +223,34 @@ export const jobsApi = createApi({
       },
       providesTags: ["proposal"],
     }),
+    fetchProposalForClient: builder.query({
+      async queryFn(jobId) {
+        try {
+          const jobsRef = collection(firestore, "proposalData");
+          const queryProposals = await getDocs(jobsRef);
+          let proposals = [];
+          queryProposals.forEach((doc) => {
+            const checkJobId = doc.data()?.job_id === jobId;
+            if (checkJobId) {
+              proposals.push({
+                id: doc.id,
+                ...doc.data(),
+              });
+            }
+          });
+          // Sort the jobs array based on the timestamp property
+          proposals.sort((b, a) => {
+            const timestampA = a?.timestamp?.toDate()?.getTime();
+            const timestampB = b?.timestamp?.toDate()?.getTime();
+            return timestampA - timestampB;
+          });
+          return { data: proposals };
+        } catch (err) {
+          return { error: err };
+        }
+      },
+      providesTags: ["proposal"],
+    }),
   }),
 });
 
@@ -234,6 +262,7 @@ export const {
   useUpdateJobMutation,
   useSubmitProposalMutation,
   useFetchClientJobsQuery,
-  useFetchJobsProposalsQuery,
+  useFetchJobsProposalQuery,
   useFetchFreelancerProposalsQuery,
+  useFetchProposalForClientQuery,
 } = jobsApi;

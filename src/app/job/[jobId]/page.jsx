@@ -2,10 +2,7 @@
 
 import Loading from "@/app/components/Loading";
 import ApplyJob from "@/app/job/[jobId]/ApplyJob";
-import {
-  useFetchJobQuery,
-  useSubmitProposalMutation,
-} from "@/redux/features/api/job/jobsApi";
+import { useFetchJobQuery } from "@/redux/features/api/job/jobsApi";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -27,7 +24,7 @@ const PostId = ({ params }) => {
     desc,
     price,
     expLvl,
-    proposals,
+    proposals = 0,
     proposalId,
     title,
     timestamp,
@@ -70,10 +67,17 @@ const PostId = ({ params }) => {
             userDetails={userDetails}
           />
           <div>
-            <h1>
+            <Link
+              href={`/submitedProposal/${jobId}`}
+              className={` ${
+                uid !== userDetails.uid || proposals === 0
+                  ? "cursor-default pointer-events-none "
+                  : "shadow-md border border-gray-300 rounded p-2 text-sm px-3"
+              }`}
+            >
               Total submited Proposals :{" "}
               <span className="font-semibold">{proposals || 0}</span>
-            </h1>
+            </Link>
           </div>
 
           <div>

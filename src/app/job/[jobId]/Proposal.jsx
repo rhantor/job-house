@@ -1,5 +1,5 @@
 import { timeStamp } from "@/app/components/timestamp";
-import { useFetchJobsProposalsQuery } from "@/redux/features/api/job/jobsApi";
+import { useFetchJobsProposalQuery } from "@/redux/features/api/job/jobsApi";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ const Proposal = ({ showProposal, setShowProposal, jobId }) => {
     isLoading,
     isError,
     error,
-  } = useFetchJobsProposalsQuery({
+  } = useFetchJobsProposalQuery({
     jobId,
     uid,
   });

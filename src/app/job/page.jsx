@@ -55,7 +55,7 @@ const Job = () => {
               ))}
             </>
           ) : isError ? (
-            error
+            error.toString()
           ) : jobs.length > 0 ? (
             <div className="space-y-5">
               {jobs
